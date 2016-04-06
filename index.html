@@ -10,7 +10,7 @@
   <ul id="aqi-list">
 <!--   
     <li>第一名：福州（样例），10</li>
-  	<li>第二名：福州（样例），10</li> -->
+    <li>第二名：福州（样例），10</li> -->
   </ul>
 
 <script type="text/javascript">
@@ -29,27 +29,20 @@ var num2Chinese = ["一","二","三","四","五","六","七","八","九","十"];
 (function () {
   //自定义排序函数
   function apiDataCompare(val1,val2){
-    if(val1[1]<val2[1]){
-      return 1;
-    }
-    else{
-      return -1;
-    }
+    return val2[1]-val1[1];
   }
-  aqiData.sort(apiDataCompare);
+  //使用数组的filter方法并排序
+  var validCity = aqiData.filter(function(item) {
+    return (item[1]>60);
+  }).sort(apiDataCompare);
   var cityList = document.getElementById("aqi-list");
   //循环插入li
-  for(var i in aqiData){
-    if(aqiData[i][1]<=60){
-      break;
-    }
+  for(var i in validCity){
     var insertEle = document.createElement("li");
-    var liString = "第"+num2Chinese[i]+"名："+aqiData[i][0]+','+aqiData[i][1];
+    var liString = "第"+num2Chinese[i]+"名："+validCity[i][0]+','+validCity[i][1];
     insertEle.innerHTML = liString;
     cityList.appendChild(insertEle);
   }
-
-
 })();
 
 </script>
